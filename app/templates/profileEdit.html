@@ -1,0 +1,210 @@
+<h2>用户信息管理</h2>
+<div class="profile">
+  <form ng-submit="saveChange()">
+    <div class="action">
+      <input type="submit" ng-show="onEditing" class="button" value="保存">
+      <span ng-click="onEditing = !onEditing" ng-show="!onEditing" class="button">修改</span>
+      <span ng-click="reset()" ng-show="onEditing" class="button">还原</span>
+      <span class="btn-return" ng-click="backToShow()">返回</span>
+    </div>
+    <div class="form-content" ng-if="currentUser.type=='1'">
+      <div class="form-item" ng-switch on="create&&onEditing">
+        <label>{{create&&onEditing ? '用户名称:': '用户编号:'}}</label>
+        <span ng-switch-when="false">{{user.userID}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.username" required>
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>手机号码:</label>
+        <span ng-switch-when="false">{{user.telephone}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.telephone" name="telephone" required>
+      </div>
+
+      <div class="form-item" ng-if="!create || !onEditing" ng-switch on="onEditing">
+        <label>用户名称:</label>
+        <span ng-switch-when="false">{{user.username}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.username" required>
+      </div>
+      <div class="form-item" ng-if="create && onEditing">
+        <label>用户密码:</label>
+        <input type="text" ng-model="user.password" required>
+      </div>
+      <div class="form-item" ng-switch="onEditing">
+        <label>性别:</label>
+        <span ng-switch-when="false">{{user.sex}}</span>
+        <div ng-switch-when="true" class="mock-select" ng-click="showSexType=!showSexType">{{user.sex}}
+          <div class="list" ng-init="showSexType=false" ng-show="showSexType">
+            <div class="item" ng-repeat="type in sexType" ng-click="user.sex = type">{{type}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>真实姓名:</label>
+        <span ng-switch-when="false">{{user.realname}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.realname">
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>出生日期:</label>
+        <span ng-switch-when="false">{{formatDate(user.birthdate)}}</span>
+        <input ng-switch-when="true" type="date" ng-model="user.birthdate"
+        min="1960-01-01" max="2015-12-31"/>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>用户类型:</label>
+        <span ng-switch-when="false">{{user.usertype}}</span>
+        <div ng-switch-when="true" class="mock-select" ng-click="showUserType=!showUserType">{{user.usertype}}
+          <div class="list" ng-init="showUserType=false" ng-show="showUserType">
+            <div class="item" ng-repeat="type in userType" ng-click="switchUserType($index, type)" >{{type}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>固定电话:</label>
+        <span ng-switch-when="false">{{user.cell}}</span>
+        <input ng-switch-when="true" type="text" ng-model="user.cell">
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>用户角色:</label>
+        <span ng-switch-when="false">{{user.userrole}}</span>
+        
+        <div ng-switch-when="true" class="mock-select" ng-click="showUserRole=!showUserRole">{{user.userrole}}
+          <div class="list" ng-init="showUserRole=false" ng-show="showUserRole">
+            <div class="item" ng-repeat="item in userRole" ng-click="switchUserRole($index, item.role)">{{item.role}}</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>所在区域:</label>
+        <span ng-switch-when="false">{{user.region}}</span>
+        <select ng-switch-when="true" ng-options="item for item in region" ng-model="user.region"></select>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>使用期限:</label>
+        <span ng-switch-when="false">{{user.duetime}}</span>
+
+        <div ng-switch-when="true" class="mock-select" ng-click="showDueTime=!showDueTime">{{user.duetime}}
+          <div class="list" ng-init="showDueTime=false" ng-show="showDueTime">
+            <div class="item" ng-repeat="item in dueTime" ng-click="user.duetime = item">{{item}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>邮箱地址:</label>
+        <span ng-switch-when="false">{{user.email}}</span>
+        <input ng-switch-when="true" ng-model="user.email">
+      </div>
+
+      <div class="form-item" ng-show="!onEditing">
+        <label>剩余天数:</label>
+        <span>{{user.remainday}}</span>
+      </div>
+      <div class="form-item" ng-show="onEditing" style="text-align: center">
+        <input type="date"
+       placeholder="yyyy-MM-dd" min="2014-01-01" max="2060-12-31" id="startDay" ng-model="startdate" style="width: 46%; float: left" ng-change="handleStartDateChange(startdate)"/>
+       至<input type="date" 
+       placeholder="yyyy-MM-dd" min="2014-01-01" max="2060-12-31" id="endDay" ng-model="enddate" style="width: 46%; float: right" ng-change="handleEndDateChange(enddate)"/>
+      </div>
+      <div class="form-item">
+        <label>注册时间:</label>
+        <span>{{user.registerdate}}</span>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>职业类型:</label>
+        <span ng-switch-when="false">{{user.occupation}}</span>
+        <select ng-switch-when="true" ng-options="item for item in occuType" ng-model="user.occupation"></select>
+      </div>
+      <div class="form-item">
+        <label>上次登录时间:</label>
+        <span>{{user.lastsignindate}}</span>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>工作单位</label>
+        <span ng-switch-when="false">{{user.company}}</span>
+        <input ng-switch-when="true" ng-model="user.company" required>
+      </div>
+
+    </div>
+
+    <div class="form-content" ng-if="currentUser.type=='0'">
+      <div class="form-item" ng-switch on="create&&onEditing">
+        <label>{{create&&onEditing ? '用户名称:': '用户编号:'}}</label>
+        <span ng-switch-when="false">{{user.ID}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.username" required>
+      </div>
+      <div class="form-item" ng-switch on="create&&onEditing">
+        <label>{{create&&onEditing ? '用户密码:': '用户名称:'}}</label>
+        <span ng-switch-when="false">{{user.username}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.password" required>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>真实姓名:</label>
+        <span ng-switch-when="false">{{user.realname}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.realname">
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>性别:</label>
+        <span ng-switch-when="false">{{user.sex}}</span>
+        <div ng-switch-when="true" class="mock-select" ng-click="showSexType=!showSexType">{{user.sex}}
+          <div class="list" ng-init="showSexType=false" ng-show="showSexType">
+            <div class="item" ng-repeat="type in sexType" ng-click="user.sex = type">{{type}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>用户类型:</label>
+        <span ng-switch-when="false">{{user.usertype}}</span>
+        <div ng-switch-when="true" class="mock-select" ng-click="showUserType=!showUserType">{{user.usertype}}
+          <div class="list" ng-init="showUserType=false" ng-show="showUserType">
+            <div class="item" ng-repeat="type in userTypeSuper" ng-click="user.usertype = type">{{type}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>出生年月:</label>
+        <span ng-switch-when="false">{{user.birthdate}}</span>
+        <input ng-switch-when="true" type="date" ng-model="user.birthdate"
+        min="1960-01-01" max="2015-12-31"/>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>用户角色:</label>
+        <span ng-switch-when="false">{{user.userrole}}</span>
+        <div ng-switch-when="true" class="mock-select" ng-click="showUserRole=!showUserRole">{{user.userrole}}
+          <div class="list" ng-init="showUserRole=false" ng-show="showUserRole">
+            <div class="item" ng-repeat="type in useerRoleSuper" ng-click="user.userrole = type">{{type}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-item" ng-switch on="onEditing">
+        <label>手机号码:</label>
+        <span ng-switch-when="false">{{user.cell}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.cell" required>
+      </div>
+
+      <div class="form-item" ng-switch on="onEditing">
+        <label>邮箱:</label>
+        <span ng-switch-when="false">{{user.email}}</span>
+        <input type="text" ng-switch-when="true" ng-model="user.email" >
+      </div><br>
+
+      <div class="form-item" ng-if="!create">
+        <label>创建日期:</label>
+        <span>--</span>
+      </div>
+      <div class="form-item" ng-if="!create">
+        <label>最后登录日期:</label>
+        <span>--</span>
+      </div>
+
+    </div>
+
+  </form>
+</div>

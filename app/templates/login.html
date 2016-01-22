@@ -1,0 +1,23 @@
+<div class="login">
+  <form name="login" ng-submit="submit()">
+    <div class="name-con">
+      <label class="title">用户名</label>
+      <input type="text" name="name" ng-model="name" required>
+      <span class="warning" ng-show="login.name.$invalid && !login.name.$pristine">请输入用户名!</span>
+    </div>
+    <div class="password-con">
+      <label class="title">密&nbsp;&nbsp;&nbsp;码</label>
+      <input type="password" name="password" ng-model="password" required>
+      <span class="warning" ng-show="!login.password.$valid && !login.password.$pristine">请输入密码!</span>
+    </div>
+    <div class="type-con">
+      <label class="title">身&nbsp;&nbsp;&nbsp;份</label>
+      <input type="radio" ng-model="type" value="1"><label class="type">普通管理员</label>
+      <input type="radio" ng-model="type" value="0"><label class="type">系统管理员</label>
+    </div>
+    <div class="remember-con">
+      <input type="checkbox" ng-model="saveAccount"><label>记住用户名密码</label><br>
+    </div>
+    <input type="submit" value="进入管理平台">
+  </form>
+</div>

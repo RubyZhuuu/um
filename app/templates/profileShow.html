@@ -1,0 +1,145 @@
+<h2>用户信息管理</h2>
+<div class="user-show">
+  <div>
+<!--     <input class="search" type="text" ng-model="_input" placeholder="请输入用户名">
+    <input type="button" value="搜索" id="search" ng-click="localSearch.search('stock', _input)"><br> -->
+    <div class="conditions">
+      <p ng-if="user.type == '1'">
+        <span>用户类型:&nbsp;&nbsp;</span>
+        <span class="item" ng-repeat="type in identity.get()" ng-click="identity.switchItemStatus($index, 1, search)">
+          {{type.k}}
+        </span>
+      </p>
+      <p ng-if="user.type == '1'">
+        <span>用户角色:&nbsp;&nbsp;</span>
+        <span class="item" ng-repeat="r in role.get()" ng-click="role.switchItemStatus($index, 1, search)">
+          {{r.k}}
+        </span>
+      </p>
+      <p ng-if="user.type == '1'">
+        <span>职业类型:&nbsp;&nbsp;</span>
+        <span class="item" ng-repeat="r in occupation.get()" ng-click="occupation.switchItemStatus($index, 1, search)">
+          {{r.k}}
+        </span>
+      </p>
+
+      <p ng-if="user.type == '0'">
+        <span>用户角色:&nbsp;&nbsp;</span>
+        <span class="item" ng-repeat="r in managerRole.get()" ng-click="managerRole.switchItemStatus($index, 1, search)">
+          {{r.k}}
+        </span>
+      </p>
+
+      <div class="selected">
+        <p class="bl">
+          <span>已选条件:&nbsp;&nbsp;</span>
+          <span ng-if="user.type == '1'">
+            <span class="selected-item" ng-show="identity.getSelected().length == 0">
+              {{'用户类型: 不限'}}
+            </span>
+            <span class="selected-item" ng-repeat="v in identity.getSelected()" ng-click="identity.switchItemStatus($index, 0, search)">
+              {{'用户类型: ' + v}}
+            </span>
+            <span class="selected-item" ng-show="role.getSelected().length == 0">
+              {{'用户角色: 不限'}}
+            </span>
+            <span class="selected-item" class="selected" ng-repeat="r in role.getSelected()" ng-click="role.switchItemStatus($index, 0, search)">
+              {{'用户角色: ' + r}}
+            </span>
+            <span class="selected-item" ng-show="occupation.getSelected().length == 0">
+              {{'职业类型: 不限'}}
+            </span>
+            <span class="selected-item" class="selected" ng-repeat="r in occupation.getSelected()" ng-click="occupation.switchItemStatus($index, 0, search)">
+              {{'职业类型: ' + r}}
+            </span>
+          </span>
+
+          <span ng-if="user.type == '0'">
+            <span class="selected-item" ng-show="managerRole.getSelected().length == 0">
+              {{'用户角色: 不限'}}
+            </span>
+            <span class="selected-item" class="selected" ng-repeat="r in managerRole.getSelected()" ng-click="managerRole.switchItemStatus($index, 0, search)">
+              {{'用户角色: ' + r}}
+            </span>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <a href="#/profile/edit" class="new">新增用户</a>
+  </div>
+  <table ng-if="user.type=='1'">
+    <thead>
+      <tr>
+        <th>用户编号</th>
+        <th>用户名称</th>
+        <th>用户类型</th>
+        <th>用户角色</th>
+        <th>角色期限</th>
+        <th>剩余天数</th>
+        <th>手机号码</th>
+        <th>工作单位</th>
+        <th>真实姓名</th>
+        <th>职业类型</th>
+        <th>所在区域</th>
+        <th>Email</th>
+        <th style="min-width: 72px;">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td ng-click="showUserDetail($index)">{{user.username}}</td>
+        <td>{{user.usertype}}</td>
+        <td>{{user.userrole}}</td>
+        <td>{{user.duetime}}</td>
+        <td>{{user.remainday}}</td>
+        <td>{{user.telephone}}</td>
+        <td>{{user.company}}</td>
+        <td>{{user.realname}}</td>
+        <td>{{user.occupation}}</td>
+        <td>{{user.region}}</td>
+        <td>{{user.email}}</td>
+        <td class="action">
+          <span ng-click="editUser($index)">修改</span> | <span ng-click="handleDelete(user.id, $index)">删除</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table ng-if="user.type=='0'">
+    <thead>
+      <tr>
+        <th>用户编号</th>
+        <th>用户名称</th>
+        <th>用户类型</th>
+        <th>用户角色</th>
+        <th>手机号码</th>
+        <th>真实姓名</th>
+        <th>出生日期</th>
+        <th>Email</th>
+        <th>性别</th>
+        <th style="min-width: 72px;">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td ng-click="showUserDetail($index)">{{user.username}}</td>
+        <td>{{user.usertype}}</td>
+        <td>{{user.userrole}}</td>
+        <td>{{user.telephone}}</td>
+        <td>{{user.realname}}</td>
+        <td>{{user.birthdate}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.sex}}</td>
+        <td class="action">
+          <span ng-click="editUser($index)">修改</span> | <span ng-click="handleDelete(user.id, $index)">删除</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div ng-show="users.length == 0" style="text-align: center">没有数据</div>
+  <div ng-include src="'./templates/pagination.html'" ng-show="users.length > 0"></div>
+</div>

@@ -1,0 +1,12 @@
+<div id="pagination">
+  <span ng-click="jumpPage(-1, null)">上一页</span>
+  <span ng-repeat="p in pageList" ng-class="{'current': p.value==localPaging.getCurrentPage(), 'disable': p.disable}" ng-click="jumpPage(0, p.value)">
+    {{p.value}}
+  </span>
+  <span class="" ng-click="jumpPage(1, null)">下一页</span>
+  <span ng-click="jumpPage(0, localPaging.getPageNums())">尾页</span>
+   跳转至
+  <form ng-submit="jumpPage(0, pageToJump); pageToJump=localPaging.getCurrentPage();" style="display: inline;">
+    <input type="text" style="width: 20px; padding: 2px 5px; margin-right: 0;" ng-model="pageToJump">
+  </form> /{{localPaging.getPageNums()}}页
+</div>

@@ -1,0 +1,23 @@
+{
+  "name": "bower.json",
+  "description": "javascript dependencies for um",
+  "authors": [
+    "Ruby"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "angular": "~1.4.8",
+    "angular-route": "~1.4.8",
+    "angular-cookies": "~1.4.8",
+    "angular-resource": "~1.4.8",
+    "ng-dialog": "~0.5.6",
+    "moment": "~2.10.6"
+  }
+}

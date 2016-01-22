@@ -1,0 +1,32 @@
+<h2>权限管理</h2>
+<div class="rights">
+  <div>
+    <span class="button" ng-click="add()">添加</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th style="min-width:140px">角色</th>
+        <th ng-repeat="right in rights">{{user.type == 1 ? right.userRightName : right.normalAdminRightName}}</th>
+        <th style="min-width: 80px;">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="role in roleRightsMapping">
+        <td class="role-name">
+          <span ng-show="!role.onEditing">{{role.roleName}}</span>
+          <input ng-show="role.onEditing" type="text" ng-model="role.roleName">
+        </td>
+        <td ng-repeat="(k, v) in role.map">
+          <span ng-show="!role.onEditing && role.map[k]">&#10003</span>
+          <input ng-show="role.onEditing" type="checkbox" ng-model="role.map[k]">
+        </td>
+        <td style="color: #1e87e0">
+          <span ng-show="role.onEditing" ng-click="save($index)">保存</span>
+          <span ng-show="!role.onEditing" ng-click="edit($index)">修改</span> | 
+          <span ng-click="delete($index)">删除</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="um">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>管理维护平台</title>
+    <script type="text/javascript" src="../dist/um.js"></script>
+    <link rel="stylesheet" type="text/css" href="../dist/style.css">
+  </head>
+  <body>
+    <div ng-include src="'./templates/navigation.html'" ng-show="isLogined"></div>
+    <div ng-include="'./templates/loading.html'" id="loading-con" ng-show="false"></div>
+    <div class="main">
+      <div ng-view class="content">
+      </div>
+    </div>
+  </body>
+</html>
